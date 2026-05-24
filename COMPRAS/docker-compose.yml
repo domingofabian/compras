@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: compras_app:latest
+    container_name: compras_app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./COMPRAS:/var/www/html
+      - ./info_conexion.php:/var/www/html/info_conexion.php:ro
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=rest_api_demo
+      - DB_USER=demo
+      - DB_PASSWORD=demo
+
+  db:
+    image: mysql:5.7
+    container_name: compras_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: rest_api_demo
+      MYSQL_USER: demo
+      MYSQL_PASSWORD: demo
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  db_data:

@@ -1,0 +1,14 @@
+Genera en el raiz el archivo docker compose para la aplicacion en php que se encuentra dentro de la carpeta COMPRAS los datos de conexion y base de datos estan en el raiz del proyecto
+
+modifica el script "$info_targeta =  <span class='text-muted small'> Cierra el $info[0] - Vence el $info[1] - Maximo  </span>$ $info[3]  " para que al hacer click en este span me permita modificar el la tabla relacionadaslos valores de las variables $info[1], $info[2] y $info[3]
+
+crea una tabla llamada usuario_tarjetas donde se especifique que medios de pagos posee cada usuario, se relacione a la tabla formas_pago campo tarjeta
+
+tene en cuenta que hay targetas que seran usadas por mas de un usuario y otras son solo de un usuario
+
+token expirado
+
+completa la tabla usuario_tarjetas con los datos en los archivos Lucia.php, Pabla.php, fabian.php y Denise.php
+
+unifica los archivos archivos Lucia.php, Pabla.php, fabian.php y Denise.php en uno que llamado usuarios_tarjetas.php con los datos de la tabla usuario_tarjetas
+

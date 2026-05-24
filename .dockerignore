@@ -1,0 +1,9 @@
+.git
+*.md
+*.txt
+BD_LOCAL
+COMPRAS/Dockerfile
+COMPRAS/docker-compose.yml
+COMPRAS/.dockerignore
+pumba_remoto.php
+

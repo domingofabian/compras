@@ -1,0 +1,62 @@
+services:
+
+  # --- Servidor Web (PHP + Apache) ---
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: compras_app
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DB_HOST=db
+      - DB_DATABASE=if0_37745141_domingo
+      - DB_USER=Denise123++
+      - DB_PASSWORD=Qaz456++++
+    restart: unless-stopped
+
+  # --- Base de Datos MySQL ---
+  db:
+    image: mysql:8.0.37
+    container_name: compras_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Qaz456++++
+      MYSQL_DATABASE: if0_37745141_domingo
+      MYSQL_USER: Denise123++
+      MYSQL_PASSWORD: Qaz456++++
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./BD_LOCAL:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pQaz456++++" ]
+      interval: 10s
+      timeout: 5s
+      retries: 15
+      start_period: 60s
+    command: --authentication-policy=mysql_native_password
+
+  # --- phpMyAdmin (acceso remoto) ---
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.1
+    container_name: compras_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 64M
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:

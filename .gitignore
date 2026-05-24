@@ -1,0 +1,10 @@
+# Composer dependencies
+/google-login/Login-google/vendor/
+
+# Secrets and Credentials
+secrets.php
+
+# Temporary and log files
+error.txt
+.DS_Store
+Thumbs.db
