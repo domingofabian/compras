@@ -24,13 +24,19 @@ if (empty($client_id) || empty($client_secret)) {
 $google_client->setClientId($client_id);
 $google_client->setClientSecret($client_secret);
 
-// Asignar la URL de redirección exacta dependiendo de si estamos en Docker o en XAMPP
-if ($_SERVER['HTTP_HOST'] === 'localhost:8080') {
-    // Entorno Docker
+// Asignar la URL de redirección de forma dinámica
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$host = $_SERVER['HTTP_HOST'];
+
+if ($host === 'localhost:8080') {
+    // Entorno Docker local
     $redirect_uri = 'http://localhost:8080/google-login/Login-google/index.php';
-} else {
-    // Entorno local XAMPP (con el nombre de carpeta y %20 para evitar espacios inválidos)
+} elseif (strpos($host, 'localhost') !== false || strpos($host, '127.0.0.1') !== false) {
+    // Entorno local XAMPP
     $redirect_uri = 'http://localhost/compras%20feb26/google-login/Login-google/index.php';
+} else {
+    // Entorno de producción (Railway, VPS, etc.)
+    $redirect_uri = $protocol . $host . '/google-login/Login-google/index.php';
 }
 
 $google_client->setRedirectUri($redirect_uri);
